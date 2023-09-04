@@ -21,6 +21,12 @@ for (let i = 0; i < timeList.length; i++) {
   let createTime = $("div class='hour col'>");
 }
 
+//Creates the text area to hold the content
+let createTextarea = $("<textarea class='col-10'>");
+createTextarea.attr("id", timeList[i]);
+//Will create the button and save icon using "fa-save using a font icon");
+let createButton = $("button type='button' class='saveBtn col-1 far fa-save'>");
+
 
 
 
