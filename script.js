@@ -19,7 +19,6 @@ const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 for (let i = 0; i < timeList.length; i++) {
   let createRow = $("<div class='row time-block'>").attr("id", timeId[i]);
   let createTime = $("div class='hour col'>");
-}
 
 //Creates the text area to hold the content
 let createTextarea = $("<textarea class='col-10'>");
@@ -27,30 +26,70 @@ createTextarea.attr("id", timeList[i]);
 //Will create the button and save icon using "fa-save using a font icon");
 let createButton = $("button type='button' class='saveBtn col-1 far fa-save'>");
 
+//this attaches the created row to the container
+createContainer.append(createRow);
+//this creates the timelist and attaches 8 rows 9am-5pm
+createTime.text(timeList[i]);
+createRow.append(createTime);
 
+//Attaches the previsously created "text area" so users can input content
+createRow.append(createTextarea);
 
+//creates buttons for each time slot (8am-5pm0
+createButton.text();
+createRow.append(createButton);
+}
 
+//calls the localStorage Function(will save all user input later in the JS)
+localStorageFunctions(); {
 
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
+  for(let index = 0; index < numbers.length; index++) {
+    $("textarea")[index].value = localStorage.getItem("textarea" + String(index + 1));
+
+  }
+}
+
+//this to save the stored data that has been entered into the textarea 
+$("button").on("click", function (event) {
+  event.preventDefault();
+
+  for (let index = 0; index < numbers.length; index++) {
+    localStorage.setItem('textarea' + String(index +1), $("textarea")[index].value)
+
+  }
 });
+
+//Colors the appropriate row/timeblock based upon whether or not the current time of day is ewual to less than the timeblock youre in
+//Grey= already past, Red = Current hour, Green= Coming up
+function timeValid() {
+  var currentHour =  moment().hours();
+  $(".time-block").each(function () {
+    var currentBlock = parseInt ($(this).attr("id").split(" ")[0]);
+
+    if (currentBlock < currentHour) {
+      $(this).addClass("past");
+    } else if (currentBlock === currentHour) {
+      $(this).removeClass("past");
+      $(this).addClass("present");
+    } else {
+      $(this).removeClass("past");
+      $(this).removeClass("present");
+      $(this).addClass ("future");
+
+    }
+  });
+}
+
+
+//Calls function to check whether time is still valid or not
+timeValid()
+    
+    
+  
+
+
+
+
+
+
+
